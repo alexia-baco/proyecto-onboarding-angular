@@ -32,7 +32,6 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct()
     {
-        // Esto soluciona el error que te avisaba el profesor
         $this->fechaRegistro = new \DateTimeImmutable();
     }
 
