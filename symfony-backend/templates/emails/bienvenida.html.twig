@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Bienvenido a To-Do App</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f7fa;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        background-color: #ffffff;
+        padding: 24px;
+        margin: 0 auto;
+        max-width: 640px;
+        border-radius: 8px;
+        border: 1px solid #dde6f2;
+      }
+      .cta {
+        display: inline-block;
+        background-color: #2563eb;
+        color: #ffffff !important;
+        text-decoration: none;
+        padding: 12px 20px;
+        border-radius: 6px;
+        margin-top: 20px;
+      }
+      p {
+        color: #1f2937;
+        line-height: 1.5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>¡Hola {{ usuario.nombre }}!</h1>
+      <p>
+        Gracias por registrarte en To-Do App. A partir de ahora podrás organizar tus tareas
+        y compartirlas con tu equipo sin complicaciones.
+      </p>
+      <p>
+        Haz clic en el siguiente botón para acceder a tu panel e iniciar tu primera lista
+        de tareas.
+      </p>
+      <a class="cta" href="{{ frontend_url|default('https://todo-app.local/login') }}">
+        Ir a To-Do App
+      </a>
+      <p style="margin-top:24px;">
+        Si no esperabas este correo, ignóralo. Puedes escribirnos respondiendo a este mensaje si
+        necesitas ayuda.
+      </p>
+      <p style="margin-top:32px;color:#6b7280;">El equipo de To-Do App</p>
+    </div>
+  </body>
+</html>
