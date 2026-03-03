@@ -1,22 +1,18 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-if [[ "$1" == apache2* ]] || [ "$1" = 'php-fpm' ]; then
-    if [ ! -e /usr/src/app/public/index.php ]; then
-        if [ -n "$SYMFONY_PARAMS" ]; then
-            echo "CREATING PROJECT with params: /usr/bin/symfony new /usr/src/app $SYMFONY_PARAMS"
-            /usr/bin/symfony new /usr/src/app $SYMFONY_PARAMS
-        else
-            echo "CREATING PROJECT with std-params: /usr/bin/symfony new /usr/src/app $SYMFONY_PARAMS_STD"
-            /usr/bin/symfony new /usr/src/app $SYMFONY_PARAMS_STD
-        fi    
-    else
-        if [ ! -e /usr/src/app/vendor ]; then
-            echo "INSTALLING DEPENDENCIES with composer install"
-            cd /usr/src/app && composer install
-        fi    
-    fi
-fi
+set -e
+
+APP_DIR="/var/www/app"
 
 echo "STARTING APACHE"
+
+if [ -d "$APP_DIR" ]; then
+    cd "$APP_DIR"
+    php bin/console doctrine:database:create --if-not-exists --no-interaction
+    php bin/console doctrine:schema:update --force --no-interaction
+    php bin/console app:create-admin || true
+else
+    echo "WARN: Application directory $APP_DIR not found. Skipping schema update and admin creation."
+fi
 
 exec "$@"

@@ -8,6 +8,7 @@ services:
     working_dir: /var/www/app
     volumes:
       - ./symfony-backend:/var/www/app
+    entrypoint: ["docker-entrypoint.sh"]
     depends_on:
       db:
         condition: service_healthy
