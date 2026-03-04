@@ -8,5 +8,6 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'angular-frontend';
+  title = 'Mi Angular';
+  subtitle = 'Subtitulo de ejemplo'
 }
