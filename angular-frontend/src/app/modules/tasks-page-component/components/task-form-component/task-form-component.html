@@ -1,0 +1,36 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="bg-gray-50 p-6 rounded-lg border border-gray-200 mb-8">
+  <h2 class="text-xl font-bold mb-4 text-gray-900">Crear nueva tarea</h2>
+
+  <label class="block text-sm font-medium text-gray-700">Título</label>
+  <input type="text" formControlName="titulo" class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2" />
+  
+  <p *ngIf="form.get('titulo')?.hasError('required') && form.get('titulo')?.touched" class="text-red-500 text-xs mt-1">
+    El título es obligatorio.
+  </p>
+  <p *ngIf="form.get('titulo')?.hasError('minlength') && form.get('titulo')?.touched" class="text-red-500 text-xs mt-1">
+    Mínimo 3 caracteres.
+  </p>
+
+  <label class="mt-4 block text-sm font-medium text-gray-700">Descripción</label>
+  <textarea formControlName="descripcion" rows="3" class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2"></textarea>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Estado</label>
+      <select formControlName="estado" class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 bg-white">
+        <option value="pendiente">Pendiente</option>
+        <option value="en progreso">En progreso</option>
+        <option value="completada">Completada</option>
+      </select>
+    </div>
+    
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Fecha límite</label>
+      <input type="date" formControlName="fechaLimite" class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2" />
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="form.invalid" class="mt-6 w-full sm:w-auto min-h-[44px] rounded-md bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed">
+    Guardar Tarea
+  </button>
+</form>

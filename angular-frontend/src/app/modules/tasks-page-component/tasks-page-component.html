@@ -8,29 +8,24 @@
       subtitle="Organiza y administra tus tareas pendientes">
     </app-page-title>
 
-    <button class="mt-8 mb-8 w-full sm:w-auto min-h-[44px] rounded-md bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-600">
-      Crear Tarea
-    </button>
+    <app-task-form-component (submitted)="onTaskSubmitted($event)"></app-task-form-component>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 mt-6">
-      
       <div *ngFor="let task of tasks" class="flex flex-col rounded-lg border border-gray-200 p-6 shadow-sm hover:shadow-md transition-shadow">
         <h3 class="text-lg font-semibold text-gray-900">{{ task.title }}</h3>
         
-        <p class="mt-4">
+        <p class="mt-4 text-sm">
           Estado: 
           <span [class]="task.status === 'completada' ? 'font-medium text-green-600' : task.status === 'en progreso' ? 'font-medium text-blue-600' : 'font-medium text-yellow-600'">
             {{ task.status }}
           </span>
         </p>
         
-        @if (task.dueDate) {
-          <p class="mt-2 text-sm text-gray-500">
-            Fecha límite: {{ task.dueDate }}
-          </p>
-        }
+        <p *ngIf="task.dueDate" class="mt-2 text-sm text-gray-500">
+          Fecha límite: {{ task.dueDate }}
+        </p>
       </div>
-
     </div>
+
   </div>
 </main>
