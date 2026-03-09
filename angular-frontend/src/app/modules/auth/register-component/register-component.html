@@ -1,0 +1,29 @@
+<!-- src/app/modules/auth/register-component/register-component.html -->
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="mx-auto mt-12 max-w-md space-y-4">
+  <h1 class="text-2xl font-semibold">Crear cuenta</h1>
+
+  <div>
+    <label class="block text-sm font-medium">Email</label>
+    <input type="email" formControlName="email" class="mt-1 w-full rounded border px-3 py-2" />
+  </div>
+
+  <div>
+    <label class="block text-sm font-medium">Contraseña</label>
+    <input type="password" formControlName="password" class="mt-1 w-full rounded border px-3 py-2" />
+  </div>
+
+  <div>
+    <label class="block text-sm font-medium">Nombre</label>
+    <input type="text" formControlName="nombre" class="mt-1 w-full rounded border px-3 py-2" />
+  </div>
+
+  <button [disabled]="loading || form.invalid" class="h-11 rounded-md bg-blue-600 px-5 text-sm font-semibold text-white">Registrarme</button>
+
+  <p class="text-sm text-slate-600">
+  ¿Ya tienes cuenta?
+  <a routerLink="/login" class="text-blue-600 hover:text-blue-700">Inicia sesión</a>
+  .
+  <a routerLink="/" class="ml-2 text-slate-600 hover:text-slate-800">Volver al inicio</a>
+  </p>
+
+</form>
