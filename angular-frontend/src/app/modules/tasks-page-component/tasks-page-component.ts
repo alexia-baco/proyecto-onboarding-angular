@@ -8,6 +8,7 @@ import { TaskListComponent } from './components/task-list-component/task-list-co
 import { TaskPayload } from '../../shared/interfaces/tasks';
 import { TaskApiService } from '../../features/tasks/data/task-api';
 import { TaskFiltersComponent } from './components/task-filters-component/task-filters-component';
+import { ToastService } from '../../shared/services/toast-service';
 
 @Component({
   selector: 'app-tasks-page',
@@ -18,7 +19,10 @@ import { TaskFiltersComponent } from './components/task-filters-component/task-f
 export class TasksPageComponent {
   @ViewChild(TaskListComponent) list?: TaskListComponent; // referencia para refrescar la lista
 
-  constructor(private readonly api: TaskApiService) {}
+  constructor(
+    private readonly api: TaskApiService,
+    private readonly toast: ToastService
+  ) {}
 
   onFiltersApply(f: { q?: string; estado?: 'pendiente' | 'en progreso' | 'completada'; fechaDesde?: string | null; fechaHasta?: string | null }) {
     // Llama al listado con los filtros que entiende la API (q, estado)
@@ -27,17 +31,16 @@ export class TasksPageComponent {
   }
 
   onTaskSubmitted(payload: TaskPayload) {
-    // 1) Crear en la API
     this.api.createTask(payload).subscribe({
       next: () => {
-        // 2) Refrescar la lista
+        // ¡Aquí lanzamos el mensaje de éxito!
+        this.toast.success('Tarea guardada correctamente');
         this.list?.loadTasks();
-        // 3) (Ej. 05) Aquí mostrarías un toast de éxito
       },
-      error: (err) => {
-        console.error('Error al crear la tarea', err);
-        // (Ej. 05) Aquí mostrarías un toast de error
-      },
+      error: () => {
+        // ¡Y aquí el de error por si falla!
+        this.toast.error('No se pudo guardar la tarea');
+      }
     });
   }
 }
