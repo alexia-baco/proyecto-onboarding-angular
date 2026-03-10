@@ -1,0 +1,45 @@
+<!-- src/app/modules/tasks-page-component/components/task-list-component/task-list-component.html -->
+<section class="mt-10">
+  <!-- Loading -->
+  @if ((loading$ | async)) {
+    <p class="text-slate-500">Cargando tareas…</p>
+  }
+
+  <!-- Error -->
+  @if ((error$ | async); as err) {
+    <p class="text-red-600">{{ err }}</p>
+  }
+
+  <!-- Contenido -->
+  @if ((tasks$ | async); as tasks) {
+    @if (!tasks.length) {
+      <p class="text-slate-500">No hay tareas.</p>
+    }
+
+    @if (tasks.length) {
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+      <article
+        *ngFor="let t of tasks"
+        class="rounded-lg border border-slate-200 bg-white p-6 shadow-sm"
+      >
+        <h3 class="text-lg font-semibold text-slate-900">{{ t.titulo }}</h3>
+        <p class="text-sm text-slate-600">
+          Estado:
+          <span
+            class="font-semibold capitalize"
+            [class.text-blue-600]="t.estado === 'en progreso'"
+            [class.text-emerald-600]="t.estado === 'completada'"
+            [class.text-amber-600]="t.estado === 'pendiente'"
+          >
+            {{ t.estado }}
+          </span>
+        </p>
+        <p class="text-sm text-slate-500">
+          Fecha límite: {{ t.fechaLimite || 'Sin fecha definida' }}
+        </p>
+      </article>
+      </div>
+    }
+  }
+  
+</section>

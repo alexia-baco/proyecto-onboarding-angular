@@ -1,31 +1,19 @@
-<main class="min-h-screen bg-white">
-  <div class="mx-auto max-w-7xl px-4 py-8 sm:px-8 lg:px-16">
-    
-    <app-back-to-landing-button class="mb-8 block"></app-back-to-landing-button>
-
-    <app-page-title 
-      title="Gestión de Tareas" 
-      subtitle="Organiza y administra tus tareas pendientes">
-    </app-page-title>
-
-    <app-task-form-component (submitted)="onTaskSubmitted($event)"></app-task-form-component>
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 mt-6">
-      <div *ngFor="let task of tasks" class="flex flex-col rounded-lg border border-gray-200 p-6 shadow-sm hover:shadow-md transition-shadow">
-        <h3 class="text-lg font-semibold text-gray-900">{{ task.title }}</h3>
-        
-        <p class="mt-4 text-sm">
-          Estado: 
-          <span [class]="task.status === 'completada' ? 'font-medium text-green-600' : task.status === 'en progreso' ? 'font-medium text-blue-600' : 'font-medium text-yellow-600'">
-            {{ task.status }}
-          </span>
-        </p>
-        
-        <p *ngIf="task.dueDate" class="mt-2 text-sm text-gray-500">
-          Fecha límite: {{ task.dueDate }}
-        </p>
-      </div>
-    </div>
-
+<main class="mx-auto min-h-screen max-w-7xl bg-white px-4 py-24 sm:px-8 sm:py-32 lg:px-16">
+  <app-back-to-landing-button class="mb-6 inline-flex lg:hidden"></app-back-to-landing-button>
+  
+  <div class="flex flex-col items-start gap-6 lg:flex-row lg:items-center lg:justify-between mb-8">
+    <app-page-title
+      class="w-full"
+      title="Gestión de Tareas"
+      subtitle="Organiza y administra tus pendientes con un vistazo rápido."
+    ></app-page-title>
+    <app-back-to-landing-button class="hidden lg:inline-flex"></app-back-to-landing-button>
   </div>
-</main>
+
+  <app-task-form-component (submitted)="onTaskSubmitted($event)"></app-task-form-component>
+  
+  <app-task-filters (apply)="onFiltersApply($event)"></app-task-filters>
+  <app-task-list></app-task-list>
+
+  
+  </main>

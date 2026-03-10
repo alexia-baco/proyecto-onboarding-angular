@@ -1,0 +1,37 @@
+<!-- src/app/modules/tasks-page-component/components/task-filters-component/task-filters-component.html -->
+<form (ngSubmit)="onApply()" [formGroup]="form" class="mt-8 grid grid-cols-1 gap-4 md:grid-cols-4">
+  <div class="md:col-span-2">
+    <label class="block text-sm font-medium">Buscar</label>
+    <input type="text" formControlName="texto" class="mt-1 w-full rounded border px-3 py-2" placeholder="Título o descripción" />
+  </div>
+
+  <div>
+    <label class="block text-sm font-medium">Estado</label>
+    <select formControlName="estado" class="mt-1 w-full rounded border px-3 py-2">
+      <option value="">Todos</option>
+      <option value="pendiente">Pendiente</option>
+      <option value="en progreso">En progreso</option>
+      <option value="completada">Completada</option>
+    </select>
+  </div>
+
+  <div class="flex items-end gap-3">
+    <label class="inline-flex items-center gap-2 text-sm">
+      <input type="checkbox" formControlName="mostrarSoloPendientes" /> Solo pendientes
+    </label>
+  </div>
+
+  <div>
+    <label class="block text-sm font-medium">Desde</label>
+    <input type="date" formControlName="fechaDesde" class="mt-1 w-full rounded border px-3 py-2" />
+  </div>
+  <div>
+    <label class="block text-sm font-medium">Hasta</label>
+    <input type="date" formControlName="fechaHasta" class="mt-1 w-full rounded border px-3 py-2" />
+  </div>
+
+  <div class="md:col-span-2 flex items-end gap-3">
+    <button type="submit" class="h-11 rounded-md bg-blue-600 px-5 text-sm font-semibold text-white">Aplicar filtros</button>
+    <button type="button" (click)="onReset()" class="h-11 rounded-md border px-5 text-sm font-semibold">Limpiar</button>
+  </div>
+</form>

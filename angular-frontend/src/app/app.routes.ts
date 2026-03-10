@@ -1,9 +1,14 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './modules/auth/login-component/login-component';
-import { RegisterComponent } from './modules/auth/register-component/register-component';
+// Importamos la página de tareas
+import { TasksPageComponent } from './modules/tasks-page-component/tasks-page-component';
 
 export const routes: Routes = [
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-  // { path: 'tasks', component: TasksPageComponent } // ya creada en ejercicios previos
+  // Cuando escriban /tasks, mostramos el componente de tareas
+  { path: 'tasks', component: TasksPageComponent },
+  
+  // Si entran a la raíz (localhost:4200 o 35979 sin nada más), los mandamos a /tasks
+  { path: '', redirectTo: 'tasks', pathMatch: 'full' },
+  
+  // Si escriben una ruta que no existe, los mandamos también a /tasks por defecto
+  { path: '**', redirectTo: 'tasks' }
 ];
