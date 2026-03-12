@@ -1,14 +1,16 @@
 import { Routes } from '@angular/router';
-// Importamos la página de tareas
+import { LandingPageComponent } from './modules/landing-page-component/landing-page-component';
 import { TasksPageComponent } from './modules/tasks-page-component/tasks-page-component';
+import { LoginComponent } from './modules/auth/login-component/login-component';
+import { RegisterComponent } from './modules/auth/register-component/register-component';
+import { AdminDashboardComponent } from './modules/admin/dashboard-component/dashboard-component';
+import { authGuard } from './guards/auth.guard';
+import { adminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
-  // Cuando escriban /tasks, mostramos el componente de tareas
-  { path: 'tasks', component: TasksPageComponent },
-  
-  // Si entran a la raíz (localhost:4200 o 35979 sin nada más), los mandamos a /tasks
-  { path: '', redirectTo: 'tasks', pathMatch: 'full' },
-  
-  // Si escriben una ruta que no existe, los mandamos también a /tasks por defecto
-  { path: '**', redirectTo: 'tasks' }
+  { path: '', component: LandingPageComponent },
+  { path: 'tasks', component: TasksPageComponent, canActivate: [authGuard] },
+  { path: 'admin', component: AdminDashboardComponent, canActivate: [authGuard, adminGuard] },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent }
 ];
