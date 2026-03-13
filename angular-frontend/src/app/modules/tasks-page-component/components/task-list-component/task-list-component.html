@@ -1,45 +1,75 @@
-<!-- src/app/modules/tasks-page-component/components/task-list-component/task-list-component.html -->
-<section class="mt-10">
-  <!-- Loading -->
+<section class="mt-8">
   @if ((loading$ | async)) {
-    <p class="text-slate-500">Cargando tareas…</p>
+    <div class="flex items-center justify-center p-8 text-slate-500 bg-white border border-slate-200 rounded-lg shadow-sm">
+      <svg class="w-6 h-6 mr-3 animate-spin text-primary-600" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+      <span class="font-medium">Cargando tus tareas...</span>
+    </div>
   }
 
-  <!-- Error -->
   @if ((error$ | async); as err) {
-    <p class="text-red-600">{{ err }}</p>
+    <div class="p-4 mb-6 rounded-lg bg-red-50 text-red-600 border border-red-200 font-medium">
+      {{ err }}
+    </div>
   }
 
-  <!-- Contenido -->
   @if ((tasks$ | async); as tasks) {
+    
     @if (!tasks.length) {
-      <p class="text-slate-500">No hay tareas.</p>
+      <div class="flex flex-col items-center justify-center p-12 text-center bg-white border border-dashed rounded-lg border-slate-300">
+        <svg class="w-12 h-12 mb-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+        </svg>
+        <h3 class="text-lg font-medium text-slate-900">No hay tareas creadas</h3>
+        <p class="mt-1 text-sm text-slate-500">¡Tienes todo al día! Usa el formulario de arriba para añadir una nueva.</p>
+      </div>
     }
 
     @if (tasks.length) {
-      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
-      <article
-        *ngFor="let t of tasks"
-        class="rounded-lg border border-slate-200 bg-white p-6 shadow-sm"
-      >
-        <h3 class="text-lg font-semibold text-slate-900">{{ t.titulo }}</h3>
-        <p class="text-sm text-slate-600">
-          Estado:
-          <span
-            class="font-semibold capitalize"
-            [class.text-blue-600]="t.estado === 'en progreso'"
-            [class.text-emerald-600]="t.estado === 'completada'"
-            [class.text-amber-600]="t.estado === 'pendiente'"
-          >
-            {{ t.estado }}
-          </span>
-        </p>
-        <p class="text-sm text-slate-500">
-          Fecha límite: {{ t.fechaLimite || 'Sin fecha definida' }}
-        </p>
-      </article>
+      <div class="overflow-hidden border rounded-lg shadow-sm border-slate-200">
+        <table class="w-full text-left border-collapse divide-y divide-slate-200">
+          
+          <thead class="bg-slate-50">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-xs font-bold tracking-wider text-slate-500 uppercase">Título</th>
+              <th scope="col" class="px-6 py-3 text-xs font-bold tracking-wider text-slate-500 uppercase">Estado</th>
+              <th scope="col" class="px-6 py-3 text-xs font-bold tracking-wider text-slate-500 uppercase">Fecha Límite</th>
+              <th scope="col" class="px-6 py-3 text-xs font-bold tracking-wider text-right text-slate-500 uppercase">Acciones</th>
+            </tr>
+          </thead>
+          
+          <tbody class="bg-white divide-y divide-slate-200">
+            <tr *ngFor="let t of tasks" class="transition-colors hover:bg-slate-50">
+              
+              <td class="px-6 py-4 text-sm font-semibold text-slate-900">{{ t.titulo }}</td>
+              
+              <td class="px-6 py-4 text-sm">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold capitalize"
+                  [class.bg-blue-100]="t.estado === 'en progreso'"
+                  [class.text-blue-800]="t.estado === 'en progreso'"
+                  [class.bg-emerald-100]="t.estado === 'completada'"
+                  [class.text-emerald-800]="t.estado === 'completada'"
+                  [class.bg-amber-100]="t.estado === 'pendiente'"
+                  [class.text-amber-800]="t.estado === 'pendiente'">
+                  {{ t.estado }}
+                </span>
+              </td>
+              
+              <td class="px-6 py-4 text-sm text-slate-500">
+                {{ t.fechaLimite || 'Sin fecha' }}
+              </td>
+              
+              <td class="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
+                <button class="text-primary-600 hover:text-primary-700 font-bold" aria-label="Editar tarea">
+                  Editar
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     }
   }
-  
 </section>

@@ -1,0 +1,20 @@
+<nav class="bg-primary text-white shadow-md" *ngIf="store.isLoggedIn()">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between h-16 items-center">
+      
+      <div class="flex items-center space-x-4">
+        <span class="font-bold text-xl">TaskApp</span>
+        <a routerLink="/tasks" class="hover:bg-primary-700 px-3 py-2 rounded-md font-medium cursor-pointer">Mis Tareas</a>
+        <a *ngIf="store.isAdmin()" routerLink="/admin" class="hover:bg-primary-700 px-3 py-2 rounded-md font-medium cursor-pointer">Panel Admin</a>
+      </div>
+
+      <div class="flex items-center space-x-4">
+        <span class="text-sm">{{ store.user()?.email }}</span>
+        <button (click)="logout()" class="bg-primary-700 hover:bg-primary-600 px-4 py-2 rounded-md text-sm font-bold">
+          Cerrar sesión
+        </button>
+      </div>
+
+    </div>
+  </div>
+</nav>

@@ -1,18 +1,20 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./src/**/*.{html,ts}", // detecta los ficheros donde Tailwind debe buscar clases
+    "./src/**/*.{html,ts}",
   ],
   theme: {
     extend: {
       colors: {
-        primary: '#1D4ED8',    // Azul personalizado
-        secondary: '#9333EA',  // Morado personalizado
-        accent: '#F59E0B',     // Amarillo acento
+        primary: {
+          DEFAULT: '#5522e0', 
+          600: '#8d37ff',     
+          700: '#5c2319'      
+        }
       },
       fontFamily: {
-        sans: ['Poppins', 'sans-serif'], // Fuente predeterminada
-      },
+        sans: ['Inter', 'system-ui', 'sans-serif']
+      }
     },
   },
   plugins: [],

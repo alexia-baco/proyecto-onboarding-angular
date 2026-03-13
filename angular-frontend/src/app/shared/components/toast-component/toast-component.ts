@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
 import { Toast, ToastService } from '../../services/toast-service';
 
 @Component({
-  selector: 'app-toast-container',
+  selector: 'app-toast',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './toast-component.html',

@@ -1,19 +1,30 @@
-<main class="mx-auto min-h-screen max-w-7xl bg-white px-4 py-24 sm:px-8 sm:py-32 lg:px-16">
-  <app-back-to-landing-button class="mb-6 inline-flex lg:hidden"></app-back-to-landing-button>
+<main class="mx-auto min-h-screen max-w-7xl bg-slate-50 px-4 py-12 sm:px-8 lg:px-16">
   
   <div class="flex flex-col items-start gap-6 lg:flex-row lg:items-center lg:justify-between mb-8">
     <app-page-title
-      class="w-full"
-      title="Gestión de Tareas"
-      subtitle="Organiza y administra tus pendientes con un vistazo rápido."
+      class="w-full text-primary"
+      title="Mis Tareas"
+      subtitle="Organiza y administra tus pendientes de forma rápida y sencilla."
     ></app-page-title>
-    <app-back-to-landing-button class="hidden lg:inline-flex"></app-back-to-landing-button>
+    
+    <div class="flex items-center gap-4">
+      <button (click)="logout()" class="bg-primary-700 text-white hover:bg-primary-600 px-4 py-2 rounded-md text-sm font-bold shadow-sm transition-colors">
+        Cerrar sesión
+      </button>
+      <app-back-to-landing-button class="hidden lg:inline-flex"></app-back-to-landing-button>
+    </div>
   </div>
 
-  <app-task-form-component (submitted)="onTaskSubmitted($event)"></app-task-form-component>
-  
-  <app-task-filters (apply)="onFiltersApply($event)"></app-task-filters>
-  <app-task-list></app-task-list>
+  <app-back-to-landing-button class="mb-6 inline-flex lg:hidden"></app-back-to-landing-button>
 
+  <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 mb-8">
+    <app-task-form-component (submitted)="onTaskSubmitted($event)"></app-task-form-component>
+    <hr class="my-6 border-gray-100">
+    <app-task-filters (apply)="onFiltersApply($event)"></app-task-filters>
+  </div>
+
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+    <app-task-list></app-task-list>
+  </div>
   
-  </main>
+</main>

@@ -1,41 +1,48 @@
 <section class="p-8 max-w-6xl mx-auto">
-  <div class="mb-8 border-b pb-4">
-    <h1 class="text-3xl font-bold mb-2">Panel de Administración</h1>
-    <p class="text-lg">Bienvenido/a, <span class="font-semibold text-blue-600">{{ store.user()?.email }}</span>.</p>
-    <p class="text-gray-600">Roles: {{ store.user()?.roles?.join(', ') }}</p>
+  
+  <div class="mb-8 border-b pb-4 flex justify-between items-start">
+    <div>
+      <h1 class="text-3xl font-bold mb-2 text-primary">Panel de Administración</h1>
+      <p class="text-lg">Bienvenido/a, <span class="font-semibold text-primary-600">{{ store.user()?.email }}</span>.</p>
+      <p class="text-gray-600">Roles: {{ store.user()?.roles?.join(', ') }}</p>
+    </div>
+    
+    <button (click)="logout()" class="bg-primary-700 text-white hover:bg-primary-600 px-4 py-2 rounded-md text-sm font-bold transition-colors shadow-sm">
+      Cerrar sesión
+    </button>
   </div>
 
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
     
-    <div class="lg:col-span-1 bg-gray-50 p-6 rounded-lg shadow-sm border">
-      <h2 class="text-xl font-bold mb-4">Crear Usuario</h2>
+    <div class="lg:col-span-1 bg-gray-50 p-6 rounded-lg shadow-sm border border-slate-200">
+      <h2 class="text-xl font-bold mb-4 text-primary">Crear Usuario</h2>
       
       <form [formGroup]="createForm" (ngSubmit)="onCreateUser()" class="space-y-4">
         <div>
           <label class="block text-sm font-medium mb-1">Email</label>
-          <input type="email" formControlName="email" class="w-full border rounded p-2" placeholder="ejemplo@correo.com">
+          <input type="email" formControlName="email" class="h-10 text-sm w-full border border-slate-300 rounded-md px-3 focus:ring-2 focus:ring-primary focus:border-primary focus:outline-none" placeholder="ejemplo@correo.com">
         </div>
         
         <div>
           <label class="block text-sm font-medium mb-1">Contraseña</label>
-          <input type="password" formControlName="password" class="w-full border rounded p-2" placeholder="Mínimo 6 caracteres">
+          <input type="password" formControlName="password" class="h-10 text-sm w-full border border-slate-300 rounded-md px-3 focus:ring-2 focus:ring-primary focus:border-primary focus:outline-none" placeholder="Mínimo 6 caracteres">
         </div>
 
         <div>
           <label class="block text-sm font-medium mb-1">Nombre (Opcional)</label>
-          <input type="text" formControlName="nombre" class="w-full border rounded p-2" placeholder="Tu nombre">
+          <input type="text" formControlName="nombre" class="h-10 text-sm w-full border border-slate-300 rounded-md px-3 focus:ring-2 focus:ring-primary focus:border-primary focus:outline-none" placeholder="Tu nombre">
         </div>
 
         <div>
           <label class="block text-sm font-medium mb-1">Rol</label>
-          <select formControlName="roles" class="w-full border rounded p-2 bg-white">
+          <select formControlName="roles" class="h-10 text-sm w-full border border-slate-300 rounded-md px-3 bg-white focus:ring-2 focus:ring-primary focus:border-primary focus:outline-none">
             <option value="ROLE_USER">Usuario Normal (ROLE_USER)</option>
             <option value="ROLE_ADMIN">Administrador (ROLE_ADMIN)</option>
           </select>
         </div>
 
-        <button type="submit" class="w-full bg-blue-600 text-white font-bold py-2 rounded hover:bg-blue-700 transition">
-          Crear Usuario
+        <button type="submit" [disabled]="createForm.invalid || isSubmitting" class="h-10 w-full bg-primary-600 text-white text-sm font-bold rounded-md hover:bg-primary-700 disabled:opacity-50 transition cursor-pointer">
+        {{ isSubmitting ? 'Creando...' : 'Crear Usuario' }}
         </button>
       </form>
     </div>
@@ -48,9 +55,9 @@
           [value]="searchQuery" 
           (input)="updateSearchQuery($event)" 
           placeholder="Buscar por email o nombre..." 
-          class="flex-1 border rounded p-2"
+          class="h-10 text-sm flex-1 border border-slate-300 rounded-md px-3 focus:ring-2 focus:ring-primary focus:border-primary focus:outline-none"
         >
-        <button (click)="loadUsers()" class="bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-900">
+        <button (click)="loadUsers()" class="h-10 text-sm bg-primary-600 text-white px-4 rounded-md hover:bg-primary-700 transition">
           Buscar
         </button>
       </div>
@@ -61,45 +68,13 @@
         <p class="text-sm mt-1">Copia esta contraseña, desaparecerá al recargar la página.</p>
       </div>
 
-      <div class="bg-white border rounded-lg overflow-hidden shadow-sm">
-        <table class="w-full text-left border-collapse">
-          <thead class="bg-gray-100 border-b">
+      <div *ngIf="users.length > 0" class="bg-white border border-slate-200 rounded-lg overflow-hidden shadow-sm">
+        <table class="w-full text-left border-collapse divide-y divide-slate-200">
+          <thead class="bg-slate-50">
             <tr>
-              <th class="p-3">ID</th>
-              <th class="p-3">Email / Nombre</th>
-              <th class="p-3">Roles</th>
-              <th class="p-3 text-right">Acciones</th>
+              <th class="p-3 text-xs font-bold text-slate-500 uppercase">ID</th>
+              <th class="p-3 text-xs font-bold text-slate-500 uppercase">Email / Nombre</th>
+              <th class="p-3 text-xs font-bold text-slate-500 uppercase">Roles</th>
+              <th class="p-3 text-xs font-bold text-slate-500 uppercase text-right">Acciones</th>
             </tr>
           </thead>
-          <tbody>
-            <tr *ngFor="let user of users" class="border-b hover:bg-gray-50">
-              <td class="p-3 text-gray-500">{{ user.id }}</td>
-              <td class="p-3">
-                <div class="font-semibold">{{ user.email }}</div>
-                <div class="text-sm text-gray-500">{{ user.nombre || 'Sin nombre' }}</div>
-              </td>
-              <td class="p-3 text-sm">
-                <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-bold">
-                  {{ user.roles.join(', ') }}
-                </span>
-              </td>
-              <td class="p-3 text-right">
-                <button 
-                  (click)="onResetPassword(user.id)" 
-                  class="bg-red-100 text-red-600 px-3 py-1 rounded hover:bg-red-200 text-sm font-semibold transition">
-                  Reset Password
-                </button>
-              </td>
-            </tr>
-            <tr *ngIf="users.length === 0">
-              <td colspan="4" class="p-6 text-center text-gray-500">
-                No se han encontrado usuarios.
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-    </div>
-  </div>
-</section>
